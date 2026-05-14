@@ -1,19 +1,42 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
+
+class AddRequest(BaseModel):
+    num1: int
+    num2: int
 
 @app.get("/hello")
 def hello():
     return {"message": "Hello from Python"}
 
-@app.get("/add")
-def add_numbers(num1: int, num2: int):
-    result = num1 + num2
+@app.post("/add")
+def add_numbers(request: AddRequest):
+    result = request.num1 + request.num2
+
     return {
-        "num1": num1,
-        "num2": num2,
+        "num1": request.num1,
+        "num2": request.num2,
         "result": result
     }
+
+# from fastapi import FastAPI
+
+# app = FastAPI()
+
+# @app.get("/hello")
+# def hello():
+#     return {"message": "Hello from Python"}
+
+# @app.get("/add")
+# def add_numbers(num1: int, num2: int):
+#     result = num1 + num2
+#     return {
+#         "num1": num1,
+#         "num2": num2,
+#         "result": result
+#     }
 
 # from flask import Flask, request, jsonify
 
